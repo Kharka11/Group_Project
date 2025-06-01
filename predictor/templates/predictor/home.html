@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bhutanese Mask Classifier</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #2d3e50;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+
+        .header-content {
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        header img {
+            max-width: 80px;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        header h2 {
+            margin: 5px 0 0;
+            font-size: 1.2rem;
+            font-weight: 300;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .upload-form {
+            text-align: center;
+        }
+
+        .upload-form input[type="file"] {
+            display: block;
+            margin: 20px auto;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .upload-form button {
+            background-color: #2d3e50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .upload-form button:hover {
+            background-color: #1a2a36;
+        }
+
+        .results {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .results img {
+            max-width: 400px; /* limit max width */
+            max-height: 300px; /* optional: limit max height */
+            width: auto;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .results h3 {
+            font-size: 1.8rem;
+            margin: 10px 0;
+        }
+
+        .results p {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #2d3e50;
+            color: white;
+            font-size: 0.9rem;
+            margin-top: 30px;
+        }
+
+        footer a {
+            color: #ffc107;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="{% static 'predictor/images/logo.png' %}" alt="Sample Mask">
+        <div class="header-content">
+            <h1>Bhutanese Mask Classifier</h1>
+            <h2>Preserving Cultural Heritage Through AI</h2>
+        </div>
+        <img src="{% static 'predictor/images/flag_of_bhutan.png' %}" alt="Bhutan Flag">
+    </header>
+
+    <div class="container">
+        <form class="upload-form" method="POST" enctype="multipart/form-data" action="/">
+            {% csrf_token %}
+            <input type="file" name="image" accept="image/*" required>
+            <button type="submit">Classify Mask</button>
+        </form>
+
+        <div class="results">
+            {% if file_url %}
+                <img src="{{ file_url }}" alt="Uploaded Mask Image">
+            {% endif %}
+
+            {% if predicted_class_name %}
+                <h3>Classification: {{ predicted_class_name }}</h3>
+                <p>{{ description }}</p>
+                <p><strong>Confidence:</strong> {{ confidence }}</p>
+            {% endif %}
+
+            {% if error %}
+                <p style="color: red;">{{ error }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Bhutanese Mask Classifier. Built with <span>&hearts;</span> by AI enthusiasts. <a href="https://example.com">Learn more</a>.</p>
+    </footer>
+</body>
+</html>
